@@ -3,6 +3,7 @@ function onInit(){
     gCanvas = document.querySelector('#canvas');
     gCtx = gCanvas.getContext('2d');
     renderGallery();
+    addListeners();
     // drawImgFromlocal();
     // drawText(gMeme.lines[0].txt, 100, 100)
 }
@@ -63,4 +64,14 @@ function onChangeLine(){
 function onAddText(){
     gMeme.selectedLineIdx++
     createTextLine()
+}
+
+function addListeners() {
+    // addMouseListeners();
+    // addTouchListeners();
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        console.log('heyehy');
+        // renderCanvas();
+    });
 }

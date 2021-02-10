@@ -27,8 +27,9 @@ function drawText(text, x, y) {
 }
 
 
-function renderCircle() {
-    const { pos, color, size } = gCircle;
-    drawArc(pos.x, pos.y, size, color);
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container');
+    gCanvas.width = elContainer.offsetWidth;
+    gCanvas.height = elContainer.offsetHeight;
 }
 

@@ -132,6 +132,13 @@ h4 {
     justify-content: center;
 }
 
+
+.canvas-container {
+    width: 60vw;
+    height: 80vh;
+}
+
+
 .control-box {
     grid-column: 3/5;
 }
