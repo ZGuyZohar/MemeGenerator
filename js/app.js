@@ -7,18 +7,6 @@ function onInit(){
     // drawText(gMeme.lines[0].txt, 100, 100)
 }
 
-
-function onDrawText(text){
-    gMeme.lines.push(createTextLine(text))
-    gMeme.lines[gMeme.selectedLineIdx].txt = text;
-    drawText(
-        gMeme.lines[gMeme.selectedLineIdx].txt,
-        gMeme.lines[gMeme.selectedLineIdx].posX,
-        gMeme.lines[gMeme.selectedLineIdx].posY
-    );
-    gMeme.selectedLineIdx++
-}
-
 function renderGallery(){
     var imgs = getImgs()
     var strHtmls = imgs.map(function (img, idx) {
@@ -29,4 +17,50 @@ function renderGallery(){
     `;
     });
     document.querySelector('.gallery').innerHTML = strHtmls.join('');
+}
+
+function onDrawText(text){
+    gMeme.lines[gMeme.selectedLineIdx].txt = text;
+    drawText(
+        text,
+        gMeme.lines[gMeme.selectedLineIdx].posX,
+        gMeme.lines[gMeme.selectedLineIdx].posY
+    );
+    onAddText()
+}
+
+function onFontSizeChange(boolean){
+    if(boolean){
+        gMeme.lines[gMeme.selectedLineIdx].size += 10;
+        drawImgFromlocal(
+            gMeme.selectedImgId,
+            gMeme.lines[gMeme.selectedLineIdx].txt
+        );
+    } else {
+    gMeme.lines[gMeme.selectedLineIdx].size -= 10;
+    drawImgFromlocal(
+        gMeme.selectedImgId,
+        gMeme.lines[gMeme.selectedLineIdx].txt
+    );        
+    }
+}
+
+
+function onMemeDirection(boolean){
+    if(boolean){
+        gMeme.lines[gMeme.selectedLineIdx].posY += 10;
+        drawImgFromlocal(gMeme.selectedImgId, gMeme.lines[gMeme.selectedLineIdx].txt);
+    } else {
+        gMeme.lines[gMeme.selectedLineIdx].posY -= 10;
+        drawImgFromlocal(gMeme.selectedImgId, gMeme.lines[gMeme.selectedLineIdx].txt);        
+    }
+}
+
+function onChangeLine(){
+    changeLine()
+}
+
+function onAddText(){
+    gMeme.selectedLineIdx++
+    createTextLine()
 }

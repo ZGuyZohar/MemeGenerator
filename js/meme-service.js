@@ -20,9 +20,19 @@ const gImgs = [
     {id: 17, url: '../styles/imgs/meme-imgs/17.jpg', keywords: ['happy']},
 ]
 const gMeme = {
-    selectedImgId: 0,
+    selectedImgId: null,
     selectedLineIdx: 0,
-    lines: []
+    lines: [
+    {
+        txt: '',
+        size: 30,
+        align: 'center',
+        color: 'white',
+        strokeColor: 'black',
+        posX: 300,
+        posY: 100
+    }
+    ]
 }
 
 function createTextLine(text){
@@ -43,9 +53,14 @@ function createTextLine(text){
         newLine.posX = 300;
         newLine.posY = 250;
     }
-    return newLine;
+    return gMeme.lines.push(newLine);
 }
 
 function getImgs(){
     return gImgs;
+}
+
+function changeLine(){
+    gMeme.selectedLineIdx++
+    if(gMeme.selectedLineIdx === gMeme.lines.length+1) gMeme.selectedLineIdx = 0;
 }

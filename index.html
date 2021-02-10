@@ -27,11 +27,13 @@
     <div class="container">
         <main class="meme-container">
             <canvas id="canvas" height="400" width="400" style="border: 1px solid black;"></canvas>
-            <div class="control-box">
+            <div class="control-box flex column align-center">
+                <h2>Add Text</h2>
                 <ul class="controls">
                     <li><input type="text" onchange="onDrawText(this.value)" name="meme-text" placeholder="Add Text"> </li>
-                    <li></li>
-                    <li></li>
+                    <li><button onclick="onFontSizeChange(true)"  oncontextmenu="onFontSizeChange(false);return false;"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
+                    <li><button onclick="onMemeDirection(true)" oncontextmenu="onMemeDirection(false);return false;"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
+                    <li><button onclick="changeLine()">SWAP</button></li>
                 </ul>
             </div>
         </main>

@@ -15,6 +15,13 @@ body {
     background-color: #FFE9D0;
 }
 
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Fredoka One', cursive;
+}
+
 /* flex helpers */
 
 .flex {
@@ -119,8 +126,26 @@ body {
 
 /* MEME CONTAINER */
 
+.meme-container {
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    justify-content: center;
+}
+
+.control-box {
+    grid-column: 3/5;
+}
+
+.control-box h2 {
+    color: #827c7c;
+}
+
 .controls li {
     list-style-type: none;
+}
+
+.controls button img {
+    width: 2.5rem;
 }
 
 /* SEARCH */
