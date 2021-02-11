@@ -1,4 +1,5 @@
 // const gKeywords = {happy: 12, funny puk: 1}
+
 const gImgs = [
     {id: 0, url: 'styles/imgs/meme-imgs/0.jpg', keywords: ['happy']},
     {id: 1, url: 'styles/imgs/meme-imgs/1.jpg', keywords: ['happy']},
@@ -21,39 +22,8 @@ const gImgs = [
 ]
 const gMeme = {
     selectedImgId: null,
-    selectedLineIdx: 0,
-    lines: [
-    {
-        txt: '',
-        size: 30,
-        align: 'center',
-        color: 'white',
-        strokeColor: 'black',
-        posX: 300,
-        posY: 100
-    }
-    ]
-}
-
-function createTextLine(text){
-    var newLine = {
-        txt: text,
-        size: 30,
-        align: 'center',
-        color: 'white',
-        strokeColor: 'black'
-    };
-    if(gMeme.selectedLineIdx === 0){
-        newLine.posX = 300;
-        newLine.posY = 100;
-    } else if (gMeme.selectedLineIdx === 1) {
-        newLine.posX = 300;
-        newLine.posY = 400;
-    } else {
-        newLine.posX = 300;
-        newLine.posY = 250;
-    }
-    return gMeme.lines.push(newLine);
+    selectedLineIdx: -1,
+    lines: []
 }
 
 function getImgs(){

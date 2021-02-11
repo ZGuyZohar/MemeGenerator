@@ -69,6 +69,7 @@ h4 {
     box-shadow: inset 0px -8px 20px 0px #1e1e1e;
     background-color: #ff7f00;
     height: 130px;
+    margin-bottom: 1.875rem;
 }
 
 .nav-content {
@@ -127,28 +128,67 @@ h4 {
 /* MEME CONTAINER */
 
 .meme-container {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(4, 25%);
     justify-content: center;
+    padding-top: 0;
+    max-width: 1020px;
+    margin: 0 auto;
+    box-sizing: content-box;
+    background-color: #e3e3e3;
+    transform: scale(1, 0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
 }
 
+.meme-toggle {
+    transform: scale(1, 1)
+}
+
+.meme-toggle .canvas-container {
+    opacity: 1;
+}
+
+.meme-toggle .control-box {
+    opacity: 1;
+}
 
 .canvas-container {
-    width: 60vw;
-    height: 80vh;
+    width: 30vw;
+    height: 45vh;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out 250ms;
 }
 
 
 .control-box {
     grid-column: 3/5;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out 250ms;
 }
 
 .control-box h2 {
     color: #827c7c;
 }
 
+ul.controls {
+    width: 100%;
+}
+
+.controls .control-text-input {
+    align-self: center;
+}
+
+.controls .control-options {
+    margin-top: 1.2em;
+}
+
 .controls li {
     list-style-type: none;
+}
+
+.controls button {
+    display: inline-block;
 }
 
 .controls button img {
