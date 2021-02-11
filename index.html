@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body onload="onInit()">
+
+     <div class="main-screen" onclick="toggleMenu()"></div>
+
     <nav class="nav-container flex space-center align-center">
         <div class="nav-content flex space-between align-center">
             <div class="logo">Memegen</div>
@@ -20,11 +23,10 @@
                 <li><a href="#">About</a></li>
 
             </ul>
-            <!-- <button class="menu-btn" onclick="toggleMenu()">☰</button> -->
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
 
-    <!-- <div class="container"> -->
         <main id="meme-container" class="meme-container">
             <div class="canvas-container">
                 <canvas id="canvas" height="406" width="486" style="border: 1px solid black;"></canvas>
@@ -43,7 +45,8 @@
                 </ul>
             </div>
         </main>
-    <!-- </div> -->
+        <div class="modal-top"></div>
+        <div class="modal-bot"></div>
 
     <section class="search">
         <div class="search-container">
