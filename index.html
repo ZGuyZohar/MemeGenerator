@@ -38,15 +38,22 @@
                         <li><form onsubmit="onDrawText(this, event)"><input type="text" name="meme-text" placeholder="Add Text"></form></li>
                     </div>
                     <div class="control-options flex space-around">
-                        <li><button onclick="onFontSizeChange(true)"  oncontextmenu="onFontSizeChange(false);return false;"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
-                        <li><button onclick="onMemeDirection(true)" oncontextmenu="onMemeDirection(false);return false;"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
-                        <li><button onclick="changeLine()">SWAP</button></li>
+                        <li><button onclick="onFontSizeChange(true)"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
+                        <li><button onclick="onFontSizeChange(false)"><img src="styles/imgs/icons/decrease font - icon.png"></button></li>
+                        <label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label>
+                        <li><input id="color-btn" onchange="onFontColor(this.value)" type="color" hidden></li>
+                        <li><button onclick="changeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
+                        <li><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
+                        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="btn" type="submit">Publish</button>
+                        <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg">Download as jpeg</a>
+                        <div class="share-container"></div>
+                        </form>
                     </div>
                 </ul>
             </div>
         </main>
-        <div class="modal-top"></div>
-        <div class="modal-bot"></div>
 
     <section class="search">
         <div class="search-container">

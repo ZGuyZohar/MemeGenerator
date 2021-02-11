@@ -16,14 +16,14 @@ function createMeme(text) {
         text
     };
     if (gMeme.selectedLineIdx === 0) {
-        newMeme.pos.x = 252;
-        newMeme.pos.y = 50;
+        newMeme.pos.x = gElCanvas.width / 2;
+        newMeme.pos.y = gElCanvas.height / 2 - 120; 
     } else if (gMeme.selectedLineIdx === 1) {
-        newMeme.pos.x = 252;
-        newMeme.pos.y = 370;
+        newMeme.pos.x = gElCanvas.width / 2;
+        newMeme.pos.y = gElCanvas.height / 2 + 140; 
     } else {
-        newMeme.pos.x = 252;
-        newMeme.pos.y = 210;
+        newMeme.pos.x = gElCanvas.width / 2;
+        newMeme.pos.y = gElCanvas.height / 2 
     }
     gMeme.lines[gMeme.selectedLineIdx] = newMeme;
     return newMeme;
@@ -34,10 +34,33 @@ function addListeners() {
     addMouseListeners();
     addTouchListeners();
     window.addEventListener('resize', () => {
-        // resizeCanvas();
-        // changeDisplay()
+        if (window.matchMedia('(max-width: 555px)').matches) {
+            document.getElementById('canvas').width = 339;
+            document.getElementById('canvas').height = 350;
+            updatePos()
+        } else {
+            document.getElementById('canvas').width = 486;
+            document.getElementById('canvas').height = 406;
+            updatePos()
+        }
+
         renderCanvas();
     });
+}
+
+function updatePos(){
+    gMeme.lines.forEach((line, idx) => {
+        if (idx === 0) {
+            line.pos.x = gElCanvas.width / 2;
+            line.pos.y = gElCanvas.height / 2 - 120;
+        } else if (idx === 1) {
+            line.pos.x = gElCanvas.width / 2;
+            line.pos.y = gElCanvas.height / 2 + 140;
+        } else {
+            line.pos.x = gElCanvas.width / 2;
+            line.pos.y = gElCanvas.height / 2;
+        }   
+    })
 }
 
 function addMouseListeners() {
@@ -60,12 +83,15 @@ function onDown(ev) {
     const pos = getEvPos(ev);
     if (!gCurrMeme) return;
     isMemeClickedCurr(pos)
-    if (!isMemeClicked(pos)) return;
-    openModal()
+    if (!isMemeClicked(pos)) {
+        return;
+    }
     // isCurrMeme(pos)
     gCurrMeme.isDragging = true;
     gStartPos = pos;
     document.querySelector('.canvas-container').style.cursor = 'grabbing';
+    renderCanvas()
+    
 }
 
 function onMove(ev) {
@@ -79,9 +105,7 @@ function onMove(ev) {
         gCurrMeme.pos.y += dy;
 
         gStartPos = pos;
-        openModal();
         renderCanvas();
-        renderText();
     }
 }
 
@@ -121,24 +145,28 @@ function isMemeClicked(clickedPos) {
     return distance <= gCurrMeme.size;
 }
 
-function drawText(x, y) {
-    gCtx.beginPath();
-    gCtx.lineWidth = 2;
-    gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = 'white';
-    gCtx.font = `${gCurrMeme.size}px Impact`;
-    gCtx.textAlign = 'center';
-    gCtx.fillText(gCurrMeme.text, x, y);
-    gCtx.strokeText(gCurrMeme.text, x, y);
-}
-
 function drawAllTexts(idx) {
     if(idx === undefined) return
-    let {text, pos, size} = gMeme.lines[idx]
+    let {text, pos, size, color} = gMeme.lines[idx]
     gCtx.beginPath();
     gCtx.lineWidth = 2;
     gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = 'white';
+    gCtx.fillStyle = color;
+    gCtx.font = `${size}px Impact`;
+    gCtx.textAlign = 'center';
+    gCtx.fillText(text, pos.x, pos.y);
+    gCtx.strokeText(text, pos.x, pos.y);
+    if(idx === gMeme.selectedLineIdx) {
+        drawSelectedRect()
+    }
+}
+
+function drawCurrText(){
+    let { text, pos, size, color } = gCurrMeme;
+    gCtx.beginPath();
+    gCtx.lineWidth = 2;
+    gCtx.strokeStyle = 'black';
+    gCtx.fillStyle = color;
     gCtx.font = `${size}px Impact`;
     gCtx.textAlign = 'center';
     gCtx.fillText(text, pos.x, pos.y);
@@ -168,6 +196,7 @@ function drawImgFromlocal() {
         gMeme.lines.forEach((line, lineIdx) => {
             renderText(lineIdx);
         })
+        drawSelectedRect();
     };
 }
 
@@ -183,17 +212,64 @@ function isMemeClickedCurr(clickedPos) {
     }))
 }
 
-function openModal() {
-    if(!gCurrMeme) return;
-    var elModalTop = document.querySelector('.modal-top');
-    var elModalBot = document.querySelector('.modal-bot');
-    const {pos, size} = gCurrMeme;
-    elModalTop.style.display = 'block';
-    elModalTop.style.left = (pos.x + 150) + 'px';
-    elModalTop.style.top = (pos.y - size/2 + 120) + 'px';
-
-    elModalBot.style.display = 'block';
-    elModalBot.style.left = (pos.x + 150) + 'px';
-    elModalBot.style.top = (pos.y + size/2 + 150) + 'px';
+function drawSelectedRect(){
+   gCtx.beginPath();
+   gCtx.rect(gCurrMeme.pos.x - 70, gCurrMeme.pos.y - 70, 155, 100);
+   gCtx.strokeStyle = 'gray';
+   gCtx.stroke();
 }
+
+// REST 
+
+function deleteMeme(){
+    const idxToDelete =  gMeme.lines.findIndex((line, idx) => {
+        return line.text === gCurrMeme.text
+    })
+    gMeme.lines.splice(idxToDelete, 1);
+}
+
+// DOWNLOAD AND SHARE
+
+function downloadImg(elLink) {
+    var imgContent = gElCanvas.toDataURL('image/jpeg');
+    elLink.href = imgContent;
+}
+
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system:
+
+// UPLOAD SERVICE
+
+
+// on submit call to this function
+function uploadImg(elForm, ev) {
+    ev.preventDefault();
+    document.getElementById('imgData').value = gElCanvas.toDataURL("image/jpeg");
+
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.share-container').innerHTML = `
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           Share   
+        </a>`
+    }
+
+    doUploadImg(elForm, onSuccess);
+}
+
+function doUploadImg(elForm, onSuccess) {
+    var formData = new FormData(elForm);
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function (res) {
+        return res.text()
+    })
+    .then(onSuccess)
+    .catch(function (err) {
+        console.error(err)
+    })
+}
+
 

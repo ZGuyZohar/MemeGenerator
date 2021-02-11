@@ -12,7 +12,7 @@ html {
 
 body {
     margin: 0;
-    background-color: #FFE9D0;
+    background-color: #FFF
 }
 
 h1,
@@ -20,6 +20,28 @@ h2,
 h3,
 h4 {
     font-family: 'Fredoka One', cursive;
+}
+
+input[type="text"] {
+    border-radius: 1em;
+    width: 18.75em;
+    height: 3em;
+    border: #000;
+    padding-left: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #000;
+}
+
+button {
+    border-radius: 1em;
+    min-width: 60px;
+    min-height: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 
 /* flex helpers */
@@ -33,7 +55,7 @@ h4 {
 }
 
 .flex.space-around {
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .flex.space-center {
@@ -59,25 +81,6 @@ h4 {
     background-color: #e3e3e3;
 }
 
-.modal-top {
-    height: 3px;
-    width: 12.5rem;
-    background-color: transparent;
-    border-bottom: 3px dashed rgb(70, 68, 85);
-    display: none;
-    position: absolute;
-}
-
-.modal-bot {
-    height: 3px;
-    width: 12.5rem;
-    background-color: transparent;
-    border-top: 3px dashed rgb(70, 68, 85);
-    display: none;
-    position: absolute;
-}
-
-
 /* Nav */
 
 .menu-btn {
@@ -85,10 +88,9 @@ h4 {
 }
 
 .nav-container {
-    box-shadow: inset 0px -8px 20px 0px #1e1e1e;
+    box-shadow: inset 1px -4px 8px 0px #ffffff;
     background-color: #ff7f00;
-    height: 130px;
-    margin-bottom: 1.875rem;
+    height: 68px;
 }
 
 .nav-content {
@@ -116,7 +118,6 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #181818;
     transition: box-shadow 0.2s;
 }
 
@@ -125,19 +126,20 @@ h4 {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     transition: color 0.5s;
+    font-weight: 600;
 }
 
 
 .nav-list li:hover {
-    box-shadow: -1px 0 0 #1d1d1d, inset 0 -6px 0 #292929;
+    box-shadow: inset 1px -4px 8px 0px #ffffff;
     ;
-    background-color: #c26203;
+    background-color: #eb7703;
 }
 
 
 .nav-list li:active {
-    box-shadow: -1px 0 0 #1d1d1d, inset 0 -6px 0 #58c93a;
-    background-color: #292929;
+    box-shadow: inset 1px -4px 8px 0px #ffffff;
+    background-color: #eb7703;
 }
 
 .nav-list>* {
@@ -394,4 +396,17 @@ ul.controls {
     .meme-container {
         justify-content: space-evenly;
     }
+}
+
+.color-btn {
+    border-radius: 1em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.color-btn img {
+    width: 60px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 1em;
 }

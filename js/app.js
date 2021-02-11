@@ -7,10 +7,6 @@ function onInit() {
 }
 
 function reset(idx){
-    var elModalTop = document.querySelector('.modal-top');
-    var elModalBot = document.querySelector('.modal-bot');
-    elModalTop.style.display = 'none';
-    elModalBot.style.display = 'none';
     gMeme.selectedImgId = idx;
     gMeme.lines = [];
     gMeme.selectedLineIdx = -1;
@@ -45,9 +41,10 @@ function onShowCanvas(idx){
     if (gMeme.selectedImgId === null) {
         const elMemeContent = document.querySelector('.meme-container');
         elMemeContent.style.display = 'flex';
-        //  if (window.matchMedia('(max-width: 975px)').matches) {
-        //     elMemeContent.style.display = 'flex';
-        //  }
+         if (window.matchMedia('(max-width: 555px)').matches) {
+            document.getElementById('canvas').width = 339;
+            document.getElementById('canvas').height = 350;
+         }
         setTimeout(() => {
             elMemeContent.classList.add('meme-toggle');
         }, 1);
@@ -57,27 +54,31 @@ function onShowCanvas(idx){
 
 
 function onFontSizeChange(boolean) {
+    if (gCurrMeme === undefined) return;
     if (boolean) {
         gCurrMeme.size += 10;
         drawImgFromlocal();
-        openModal()
     } else {
         gCurrMeme.size -= 10;
         drawImgFromlocal();
-        openModal();
     }
 }
 
 function onMemeDirection(boolean) {
+    if(gCurrMeme === undefined) return
     if (boolean) {
         gCurrMeme.pos.y += 10;
         drawImgFromlocal();
-        openModal();
     } else {
         gCurrMeme.pos.y -= 10;
         drawImgFromlocal();
-        openModal();
     }
+}
+
+function onFontColor(color){
+    gFontColor = color;
+    gCurrMeme.color = gFontColor;
+    drawCurrText()
 }
 
 function changeLine(){
@@ -89,9 +90,15 @@ function changeLine(){
 function toggleMenu() {
     gMeme.selectedImgId = null;
     document.body.classList.toggle('menu-open');
-    console.log('hi');
     document.querySelector('.meme-container').classList.remove('meme-toggle');
     setTimeout(() => {
         document.querySelector('.meme-container').style.display = 'none'
     }, 500);
+}
+
+function onDeleteMeme(){
+    if(gMeme.selectedLineIdx === -1) return;
+    deleteMeme()
+    gMeme.selectedLineIdx--
+    renderCanvas()
 }
