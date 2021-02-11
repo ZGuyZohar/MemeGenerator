@@ -151,7 +151,6 @@ function renderCanvas() {
 
 
 function setImg(idx){
-    debugger
     reset(idx);
     return drawImgFromlocal();
 }
