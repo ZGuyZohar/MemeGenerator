@@ -56,7 +56,7 @@
                             <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                                 <input name="img" id="imgData" type="hidden" />
                                 <button class="submit-btn publish" type="submit">Publish</button>
-                                <button class="submit-btn download"><a href="#"  onclick="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
                                 <div class="share-container"></div>
                             </form>
                         </li>

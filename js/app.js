@@ -14,6 +14,8 @@ function reset(idx){
     gMeme.selectedLineIdx = 0;
     createMeme('')
     gCurrMeme = null;
+    const elInput = document.querySelector('input[name="meme-text"]');
+    elInput.value = '';
 }
 
 

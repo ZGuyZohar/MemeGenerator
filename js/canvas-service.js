@@ -213,16 +213,20 @@ function isMemeClickedCurr(clickedPos) {
     })
 }
 
-function drawSelectedRect(){
+function drawSelectedRect(isEmpty){
+    if(isEmpty){
+        gMeme.selectedLineIdx = -1;
+        return renderCanvas();
+     }
    if(gCurrMeme === null) return;
-   const elCanvas = document.getElementById('canvas')
    gCtx.beginPath();
-   gCtx.rect(
-       gCurrMeme.pos.x - gElCanvas.width / 2 + 30,
-       gCurrMeme.pos.y - gCurrMeme.size,
-       gElCanvas.width + gCurrMeme.size - 120,
-       gCurrMeme.size + 40
-   );
+        gCtx.rect(
+          gCurrMeme.pos.x - gElCanvas.width / 2 + 30,
+          gCurrMeme.pos.y - gCurrMeme.size,
+          gElCanvas.width + gCurrMeme.size - 120,
+          gCurrMeme.size + 40
+       
+      );
    gCtx.strokeStyle = 'white';
    gCtx.setLineDash([6]);
    gCtx.stroke();

@@ -45,6 +45,13 @@ button {
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     background-color: white;
+    border: none;
+}
+
+button:focus {
+    outline: none;
+    border: 2px solid black;
+
 }
 
 /* flex helpers */
@@ -91,7 +98,6 @@ button {
 }
 
 .nav-container {
-    box-shadow: inset 1px -4px 8px 0px #ffffff;
     background-color: #ff7f00;
     height: 68px;
 }
@@ -130,12 +136,31 @@ button {
     text-decoration: none;
     transition: color 0.5s;
     font-weight: 600;
+    position: relative;
 }
 
+.nav-list a:hover {
+    color: black;
+}
+
+.nav-list a::before {
+    content: '';
+    height: 5px;
+    display: block;
+    background: black;
+    position: absolute;
+    bottom: -0.75em;
+    left: 0;
+    right: 0;
+    transform: scale(0, 1);
+    transition: transform ease-in-out 250ms;
+}
+
+.nav-list a:hover::before {
+    transform: scale(1, 1);
+}
 
 .nav-list li:hover {
-    box-shadow: inset 1px -4px 8px 0px #ffffff;
-    ;
     background-color: #eb7703;
 }
 
@@ -343,6 +368,7 @@ ul.controls {
     grid-template-columns: repeat(auto-fill, 14.375em);
     grid-auto-rows: 14.375em;
     justify-content: center;
+    padding-bottom: 30px;
 }
 
 
@@ -398,7 +424,6 @@ ul.controls {
     width: 60px;
     height: 50px;
     display: block;
-    border: 2px solid black;
     border-radius: 1em;
 }
 
@@ -413,6 +438,14 @@ ul.controls {
     border-radius: 12px;
     background-color: #ff7f00;
     color: white;
+}
+
+.submit-btn:hover {
+    background-color: #eb7703;
+}
+
+.submit-btn:active {
+    background-color: #eb7703;
 }
 
 .submit-btn a {
@@ -485,7 +518,7 @@ ul.controls {
         top: 0;
         flex-direction: column;
         height: 100vh;
-        background-color: rgba(41, 41, 41, 0.9);
+        background-color: rgba(255, 127, 0, 0.9);
         width: 200px;
         transform: translateX(100%);
         box-shadow: none;
@@ -501,6 +534,7 @@ ul.controls {
     .nav-list li {
         height: 34px;
         border: none;
+        margin: 10px
     }
 
     .nav-list li:hover {
