@@ -161,23 +161,12 @@ function drawAllTexts(idx) {
     gCtx.fillStyle = color;
     gCtx.font = `${size}px Impact`;
     gCtx.textAlign = 'center';
+    gCtx.setLineDash([]);
     gCtx.fillText(text, pos.x, pos.y);
     gCtx.strokeText(text, pos.x, pos.y);
     if(idx === gMeme.selectedLineIdx && gMeme.selectedLineIdx !== -1 && !gIsDelete) {
         drawSelectedRect()
     }
-}
-
-function drawCurrText(){
-    let { text, pos, size, color } = gCurrMeme;
-    gCtx.beginPath();
-    gCtx.lineWidth = 2;
-    gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = color;
-    gCtx.font = `${size}px Impact`;
-    gCtx.textAlign = 'center';
-    gCtx.fillText(text, pos.x, pos.y);
-    gCtx.strokeText(text, pos.x, pos.y);
 }
 
 function renderCanvas() {
@@ -223,9 +212,16 @@ function isMemeClickedCurr(clickedPos) {
 
 function drawSelectedRect(){
    if(gCurrMeme === null) return;
+   const elCanvas = document.getElementById('canvas')
    gCtx.beginPath();
-   gCtx.rect(gCurrMeme.pos.x - 70, gCurrMeme.pos.y - 70, 155, 100);
-   gCtx.strokeStyle = 'gray';
+   gCtx.rect(
+       gCurrMeme.pos.x - gElCanvas.width / 2 + 30,
+       gCurrMeme.pos.y - gCurrMeme.size,
+       gElCanvas.width + gCurrMeme.size - 120,
+       gCurrMeme.size + 40
+   );
+   gCtx.strokeStyle = 'white';
+   gCtx.setLineDash([6]);
    gCtx.stroke();
 }
 
@@ -251,6 +247,7 @@ function downloadImg(elLink) {
 // on submit call to this function
 function uploadImg(elForm, ev) {
     ev.preventDefault();
+    gMeme.selectedLineIdx = -1;
     document.getElementById('imgData').value = gElCanvas.toDataURL("image/jpeg");
 
     // A function to be called if request succeeds
