@@ -1,6 +1,6 @@
 var gElCanvas;
 var gCtx;
-var gCurrMeme;
+var gCurrMeme = null;
 var gStartPos;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 
@@ -35,12 +35,18 @@ function addListeners() {
     addTouchListeners();
     window.addEventListener('resize', () => {
         if (window.matchMedia('(max-width: 555px)').matches) {
+            if(document.body.classList.contains('small')) return;
             document.getElementById('canvas').width = 339;
             document.getElementById('canvas').height = 350;
+            document.body.classList.remove('big')
+            document.body.classList.add('small')
             updatePos()
         } else {
+            if (document.body.classList.contains('big')) return;
             document.getElementById('canvas').width = 486;
             document.getElementById('canvas').height = 406;
+            document.body.classList.remove('small');
+            document.body.classList.add('big');
             updatePos()
         }
 
@@ -84,7 +90,8 @@ function onDown(ev) {
     if (!gCurrMeme) return;
     isMemeClickedCurr(pos)
     if (!isMemeClicked(pos)) {
-        return;
+        gMeme.selectedLineIdx = -1;
+        return renderCanvas()
     }
     // isCurrMeme(pos)
     gCurrMeme.isDragging = true;
@@ -156,7 +163,7 @@ function drawAllTexts(idx) {
     gCtx.textAlign = 'center';
     gCtx.fillText(text, pos.x, pos.y);
     gCtx.strokeText(text, pos.x, pos.y);
-    if(idx === gMeme.selectedLineIdx) {
+    if(idx === gMeme.selectedLineIdx && gMeme.selectedLineIdx !== -1 && !gIsDelete) {
         drawSelectedRect()
     }
 }
@@ -196,36 +203,37 @@ function drawImgFromlocal() {
         gMeme.lines.forEach((line, lineIdx) => {
             renderText(lineIdx);
         })
-        drawSelectedRect();
     };
 }
 
 // SELECTION FUNCTIONS
 
 function isMemeClickedCurr(clickedPos) {
-    gMeme.lines.forEach((line => {
+    gMeme.lines.forEach((line, idx) => {
         const { pos } = line;
         const distance = Math.sqrt(
             (pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2
         );
-        if(distance <= line.size) return gCurrMeme = line;
-    }))
+        if(distance <= line.size) {
+            gCurrMeme = line;
+            gMeme.selectedLineIdx = idx
+        } 
+    })
 }
 
 function drawSelectedRect(){
+   if(gCurrMeme === null) return;
    gCtx.beginPath();
    gCtx.rect(gCurrMeme.pos.x - 70, gCurrMeme.pos.y - 70, 155, 100);
    gCtx.strokeStyle = 'gray';
    gCtx.stroke();
 }
 
-// REST 
-
 function deleteMeme(){
-    const idxToDelete =  gMeme.lines.findIndex((line, idx) => {
-        return line.text === gCurrMeme.text
-    })
-    gMeme.lines.splice(idxToDelete, 1);
+    gMeme.lines.splice(gMeme.selectedLineIdx, 1);
+    if(gMeme.selectedLineIdx === 0 && gMeme.lines.length) gMeme.selectedLineIdx++
+    gMeme.selectedLineIdx--;
+    gCurrMeme = gMeme.lines[gMeme.selectedLineIdx]
 }
 
 // DOWNLOAD AND SHARE

@@ -389,9 +389,9 @@ ul.controls {
         color: white;
     }
 
-    canvas {
+    /* canvas {
         width: 339px;
-    }
+    } */
 
     .meme-container {
         justify-content: space-evenly;

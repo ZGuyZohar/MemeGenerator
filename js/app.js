@@ -1,16 +1,18 @@
+let gIsDelete = false;
+
 function onInit() {
     gElCanvas = document.getElementById('canvas');
     gCtx = gElCanvas.getContext('2d');
     renderGallery();
     addListeners();
-    gCurrMeme = createMeme('');
+    // gCurrMeme = createMeme('');
 }
 
 function reset(idx){
     gMeme.selectedImgId = idx;
     gMeme.lines = [];
     gMeme.selectedLineIdx = -1;
-    gCurrMeme = gMeme.lines[0];
+    gCurrMeme = null;
 }
 
 
@@ -57,34 +59,23 @@ function onFontSizeChange(boolean) {
     if (gCurrMeme === undefined) return;
     if (boolean) {
         gCurrMeme.size += 10;
-        drawImgFromlocal();
+        renderCanvas()
     } else {
         gCurrMeme.size -= 10;
-        drawImgFromlocal();
+        renderCanvas()
     }
 }
 
-function onMemeDirection(boolean) {
-    if(gCurrMeme === undefined) return
-    if (boolean) {
-        gCurrMeme.pos.y += 10;
-        drawImgFromlocal();
-    } else {
-        gCurrMeme.pos.y -= 10;
-        drawImgFromlocal();
-    }
-}
 
 function onFontColor(color){
     gFontColor = color;
     gCurrMeme.color = gFontColor;
-    drawCurrText()
+    renderCanvas()
 }
 
-function changeLine(){
-    gMeme.selectedLineIdx++
-    if(gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
-    gCurrMeme = gMeme.lines[gMeme.selectedLineIdx];
+function onChangeLine(){
+    changeLine()
+    renderCanvas()
 }
 
 function toggleMenu() {
@@ -99,6 +90,22 @@ function toggleMenu() {
 function onDeleteMeme(){
     if(gMeme.selectedLineIdx === -1) return;
     deleteMeme()
-    gMeme.selectedLineIdx--
+    gIsDelete = true;
+    setTimeout(() => {
+        gIsDelete = false;
+        renderCanvas()
+    }, 10);
     renderCanvas()
 }
+
+
+// function onMemeDirection(boolean) {
+//     if(gCurrMeme === undefined) return
+//     if (boolean) {
+//         gCurrMeme.pos.y += 10;
+//         renderCanvas();
+//     } else {
+//         gCurrMeme.pos.y -= 10;
+//         renderCanvas();
+//     }
+// }

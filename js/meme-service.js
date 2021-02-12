@@ -32,6 +32,7 @@ function getImgs(){
 }
 
 function changeLine(){
-    gMeme.selectedLineIdx++
-    if(gMeme.selectedLineIdx === gMeme.lines.length+1) gMeme.selectedLineIdx = 0;
+    gMeme.selectedLineIdx++;
+    if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
+    gCurrMeme = gMeme.lines[gMeme.selectedLineIdx];
 }
