@@ -25,7 +25,9 @@ const gMeme = {
     selectedLineIdx: -1,
     lines: []
 }
+let gAlignList;
 let gFontColor = '';
+
 
 function getImgs(){
     return gImgs;

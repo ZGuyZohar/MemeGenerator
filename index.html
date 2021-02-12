@@ -31,30 +31,39 @@
             <div class="canvas-container">
                 <canvas id="canvas" height="406" width="486" style="border: 1px solid black;"></canvas>
             </div>
-            <div class="control-box flex column align-center">
-                <h2>Add Text</h2>
-                <ul class="controls flex column">
-                    <div class="control-text-input">
-                        <li><form onsubmit="onDrawText(this, event)"><input type="text" name="meme-text" placeholder="Add Text"></form></li>
-                    </div>
-                    <div class="control-options flex space-around">
-                        <li><button onclick="onFontSizeChange(true)"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
-                        <li><button onclick="onFontSizeChange(false)"><img src="styles/imgs/icons/decrease font - icon.png"></button></li>
-                        <label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label>
+            <div class="control-box">
+                <ul class="controls">
+                        <li class="meme-text"><input type="text" oninput="onDrawText(this.value)" name="meme-text"  placeholder="Add Text"></li>
+                        <li class="add-text"><button onclick="onAddText()"><img src="styles/imgs/icons/add.png"></button></li>
+                        <li class="row-3 font-up"><button onclick="onFontSizeChange(true)"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
+                        <li class="row-3 font-down"><button onclick="onFontSizeChange(false)"><img src="styles/imgs/icons/decrease font - icon.png"></button></li>
+                        <li class="row-3 align-left"><button onclick="onLrcAlign(0)"><img src="styles/imgs/icons/align-to-left.png"></button></li>
+                        <li class="row-3 align-center"><button onclick="onLrcAlign(1)"><img src="styles/imgs/icons/center-text-alignment.png"></button></li>
+                        <li class="row-3 align-right"><button onclick="onLrcAlign(2)"><img src="styles/imgs/icons/align-to-right.png"></button></li>
+                        <li class="font-style">
+                            <select onchange="onFontStyle(this)" class="font-list">
+                                <option value="Impact">Impact</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Fredoka">Fredoka</option>
+                                <option value="Montserrat">Montserrat</option>
+                            </select>
+                        </li>
+                        <li class="color"><label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label></li>
                         <li><input id="color-btn" onchange="onFontColor(this.value)" type="color" hidden></li>
-                        <li><button onclick="onChangeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
-                        <li><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
-                        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                        <input name="img" id="imgData" type="hidden" />
-                        <button class="btn" type="submit">Publish</button>
-                        <a href="#" class="btn" onclick="onDownloadImg(this)" download="my-img.jpg">Download as jpeg</a>
-                        <div class="share-container"></div>
-                        </form>
-                    </div>
+                        <li class="change-selected"><button onclick="onChangeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
+                        <li class="delete"><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
+                        <li class="form-inputs">
+                            <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                                <input name="img" id="imgData" type="hidden" />
+                                <button class="submit-btn publish" type="submit">Publish</button>
+                                <button class="submit-btn download"><a href="#"  onclick="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                                <div class="share-container"></div>
+                            </form>
+                        </li>
                 </ul>
             </div>
         </main>
-
+    
     <section class="search">
         <div class="search-container">
             <input list="categories" placeholder="Search Category">

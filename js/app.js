@@ -5,13 +5,14 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d');
     renderGallery();
     addListeners();
+    gAlignList = [gElCanvas.width / 4, gElCanvas.width / 2, gElCanvas.width / 1.5];
     // gCurrMeme = createMeme('');
 }
 
 function reset(idx){
     gMeme.selectedImgId = idx;
-    gMeme.lines = [];
-    gMeme.selectedLineIdx = -1;
+    gMeme.selectedLineIdx = 0;
+    createMeme('')
     gCurrMeme = null;
 }
 
@@ -28,15 +29,22 @@ function renderGallery() {
     document.querySelector('.gallery').innerHTML = strHtmls.join('');
 }
 
-function onDrawText(elInput, ev) {
-    ev.preventDefault();
-    let text = elInput.querySelector('input').value;
-    if(!text) return;
-    elInput.querySelector('input').value = '';
-    gMeme.selectedLineIdx++;
-    createMeme(text);
-    renderCanvas()
+function onDrawText(elInput) {
+    if(gMeme.selectedLineIdx === -1) {
+        gMeme.selectedLineIdx = 0;
+        createMeme('')
+    }
+    gMeme.lines[gMeme.selectedLineIdx].text = elInput;
     gCurrMeme = gMeme.lines[gMeme.selectedLineIdx];
+    renderCanvas()
+}
+
+function onAddText(){
+    if(!gMeme.lines[gMeme.selectedLineIdx].text) return;
+    document.querySelector('input[name="meme-text"]').value = '';
+    gMeme.selectedLineIdx = gMeme.lines.length;
+    createMeme();
+    renderCanvas();
 }
 
 function onShowCanvas(idx){
@@ -54,6 +62,10 @@ function onShowCanvas(idx){
     setImg(idx);
 }
 
+function onLrcAlign(idx){
+    gMeme.lines[gMeme.selectedLineIdx].pos.x = gAlignList[idx]
+    renderCanvas();
+}
 
 function onFontSizeChange(boolean) {
     if (gCurrMeme === undefined) return;
@@ -66,6 +78,10 @@ function onFontSizeChange(boolean) {
     }
 }
 
+function onFontStyle(elInput){
+    gMeme.lines[gMeme.selectedLineIdx].fontStyle = elInput.value;
+    renderCanvas()
+}
 
 function onFontColor(color){
     gFontColor = color;
@@ -88,7 +104,10 @@ function toggleMenu() {
 }
 
 function onDeleteMeme(){
-    if(gMeme.selectedLineIdx === -1) return;
+    if(gMeme.selectedLineIdx === -1) {
+        gMeme.selectedLineIdx = gMeme.lines.length-1;
+        return renderCanvas()
+    }
     deleteMeme()
     gIsDelete = true;
     setTimeout(() => {

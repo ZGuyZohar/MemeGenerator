@@ -5,22 +5,23 @@ var gStartPos;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 
 
-function createMeme(text) {
+function createMeme(text = ' ') {
     const newMeme =  {
         pos: { x: gElCanvas.width / 2, y: gElCanvas.height / 2 },
         size: 60,
         isDragging: false,
         align: 'center',
         color: 'white',
+        fontStyle: 'Impact',
         strokeColor: 'black',
         text
     };
     if (gMeme.selectedLineIdx === 0) {
         newMeme.pos.x = gElCanvas.width / 2;
-        newMeme.pos.y = gElCanvas.height / 2 - 120; 
+        newMeme.pos.y = gElCanvas.height / 2 - 110; 
     } else if (gMeme.selectedLineIdx === 1) {
         newMeme.pos.x = gElCanvas.width / 2;
-        newMeme.pos.y = gElCanvas.height / 2 + 140; 
+        newMeme.pos.y = gElCanvas.height / 2 + 130; 
     } else {
         newMeme.pos.x = gElCanvas.width / 2;
         newMeme.pos.y = gElCanvas.height / 2 
@@ -40,6 +41,7 @@ function addListeners() {
             document.getElementById('canvas').height = 350;
             document.body.classList.remove('big')
             document.body.classList.add('small')
+            gAlignList = [gElCanvas.width / 4, gElCanvas.width / 2, gElCanvas.width / 1.5];
             updatePos()
         } else {
             if (document.body.classList.contains('big')) return;
@@ -47,6 +49,7 @@ function addListeners() {
             document.getElementById('canvas').height = 406;
             document.body.classList.remove('small');
             document.body.classList.add('big');
+            gAlignList = [gElCanvas.width / 4, gElCanvas.width / 2, gElCanvas.width / 1.5];
             updatePos()
         }
 
@@ -58,10 +61,10 @@ function updatePos(){
     gMeme.lines.forEach((line, idx) => {
         if (idx === 0) {
             line.pos.x = gElCanvas.width / 2;
-            line.pos.y = gElCanvas.height / 2 - 120;
+            line.pos.y = gElCanvas.height / 2 - 110;
         } else if (idx === 1) {
             line.pos.x = gElCanvas.width / 2;
-            line.pos.y = gElCanvas.height / 2 + 140;
+            line.pos.y = gElCanvas.height / 2 + 130;
         } else {
             line.pos.x = gElCanvas.width / 2;
             line.pos.y = gElCanvas.height / 2;
@@ -154,12 +157,12 @@ function isMemeClicked(clickedPos) {
 
 function drawAllTexts(idx) {
     if(idx === undefined) return
-    let {text, pos, size, color} = gMeme.lines[idx]
+    let {text, pos, size, color, fontStyle} = gMeme.lines[idx]
     gCtx.beginPath();
     gCtx.lineWidth = 2;
     gCtx.strokeStyle = 'black';
     gCtx.fillStyle = color;
-    gCtx.font = `${size}px Impact`;
+    gCtx.font = `${size}px ${fontStyle}`;
     gCtx.textAlign = 'center';
     gCtx.setLineDash([]);
     gCtx.fillText(text, pos.x, pos.y);
@@ -254,9 +257,9 @@ function uploadImg(elForm, ev) {
     function onSuccess(uploadedImgUrl) {
         uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.share-container').innerHTML = `
-        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+        <button class="submit-btn share" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
            Share   
-        </a>`
+        </button>`
     }
 
     doUploadImg(elForm, onSuccess);

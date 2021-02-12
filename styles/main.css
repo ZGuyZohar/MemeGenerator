@@ -23,12 +23,14 @@ h4 {
 }
 
 input[type="text"] {
-    border-radius: 1em;
+    border-radius: 0.7em;
     width: 18.75em;
     height: 3em;
     border: #000;
     padding-left: 10px;
     font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 input[type="text"]:focus {
@@ -42,6 +44,7 @@ button {
     min-height: 50px;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
+    background-color: white;
 }
 
 /* flex helpers */
@@ -150,10 +153,10 @@ button {
 
 .meme-container {
     display: none;
-    height: 407px;
+    height: 29.1875rem;
+    padding-top: 3rem;
     grid-template-columns: repeat(4, 25%);
     justify-content: center;
-    padding-top: 0;
     max-width: 1020px;
     margin: 0 auto;
     box-sizing: content-box;
@@ -191,20 +194,111 @@ button {
     transition: opacity 250ms ease-in-out 250ms;
 }
 
-.control-box h2 {
-    color: #827c7c;
+/* CONTROLS GRID */
+
+.control-box ul {
+    display: grid;
+    gap: 1.75em;
+    grid-template-columns: repeat(8, 2.5em);
+    grid-template-rows: repeat(6, 2.5em);
+    justify-content: center;
+    align-items: center;
+}
+
+li.meme-text {
+    grid-column: 2;
+}
+
+li.change-selected {
+    grid-row: 2;
+    grid-column: 3;
+}
+
+li.add-text {
+    grid-row: 2;
+    grid-column: 4;
+}
+
+.delete {
+    grid-row: 2;
+    grid-column: 5;
+}
+
+.row-3 {
+    grid-row: 3;
+}
+
+.font-up {
+    grid-column: 2;
+}
+
+.font-down {
+    grid-column: 3;
+}
+
+.align-left {
+    grid-column: 4;
+}
+
+.align-center {
+    grid-column: 5;
+}
+
+.align-right {
+    grid-column: 6;
+}
+
+.font-style {
+    grid-row: 4;
+    grid-column: 2/5;
+}
+
+.color {
+    grid-row: 4;
+    grid-column: 6;
+}
+
+.form-inputs {
+    grid-row: 6;
+}
+
+.form-inputs form {
+    display: grid;
+    gap: 1.75em;
+    grid-template-columns: repeat(8, 2.7em);
+    grid-template-rows: 2.5em;
+    margin-left: -26px;
+}
+
+.form-inputs form .download {
+    grid-column: 2/4;
+}
+
+.form-inputs form .publish {
+    grid-row: 1;
+    grid-column: 4/6;
+}
+
+.form-inputs form .share-container {
+    grid-column: 6/8;
+}
+
+/* ========== */
+
+.font-style select {
+    border-radius: 0.7em;
+    width: 10em;
+    height: 3em;
+    border: #000;
+    padding-left: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 ul.controls {
     width: 100%;
-}
-
-.controls .control-text-input {
-    align-self: center;
-}
-
-.controls .control-options {
-    margin-top: 1.2em;
+    margin-top: 6px;
 }
 
 .controls li {
@@ -299,7 +393,7 @@ ul.controls {
 @media (max-width: 975px) {
     .meme-container {
         flex-direction: column;
-        height: 600px;
+        height: 853px;
         max-width: 700px;
         justify-content: space-between;
         align-items: center;
@@ -321,6 +415,33 @@ ul.controls {
     .nav-list li {
         width: 6.00rem;
     }
+
+    .form-inputs {
+        grid-row: 5;
+        margin-left: unset;
+    }
+
+    .form-inputs form {
+        margin-left: 16px;
+    }
+
+    .form-inputs form .download {
+        grid-column: 1/1;
+        margin-left: 10px;
+    }
+
+    .form-inputs form .publish {
+        grid-row: 1;
+        grid-column: 3/4;
+        margin-left: 10px;
+    }
+
+    .form-inputs form .share-container {
+        grid-column: 5/8;
+        margin-left: 10px;
+    }
+
+
 }
 
 @media (max-width: 555px) {
@@ -402,11 +523,28 @@ ul.controls {
     border-radius: 1em;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
+    background-color: white;
+    width: 60px;
+    height: 50px;
+    display: block;
+    border: 2px solid black;
+    border-radius: 1em;
 }
 
 .color-btn img {
-    width: 60px;
-    height: 50px;
-    border: 2px solid black;
-    border-radius: 1em;
+    width: 96%;
+    padding-left: 4px;
+}
+
+.submit-btn {
+    width: 7.5rem;
+    height: 3.75rem;
+    border-radius: 12px;
+    background-color: #ff7f00;
+    color: white;
+}
+
+.submit-btn a {
+    text-decoration: none;
+    color: white;
 }
