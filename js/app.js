@@ -21,6 +21,7 @@ function reset(idx){
     gCurrMeme = null;
     const elInput = document.querySelector('input[name="meme-text"]');
     elInput.value = '';
+    gFontSizeHeight = false;
 }
 
 
@@ -105,10 +106,7 @@ function onChangeLine(){
 function toggleMenu() {
     gMeme.selectedImgId = null;
     document.body.classList.toggle('menu-open');
-    document.querySelector('.meme-container').classList.remove('meme-toggle');
-    setTimeout(() => {
-        document.querySelector('.meme-container').style.display = 'none'
-    }, 500);
+    hideCanvas()
 }
 
 function onDeleteMeme(){
@@ -129,17 +127,23 @@ function showMemesPage(){
     const elMemePage = document.querySelector('.meme-page');
     elMemePage.hidden = false;
     gMeme.selectedImgId = null;
+    hideCanvas()
+}
+
+function hideCanvas(){
         document.querySelector('.meme-container').classList.remove('meme-toggle');
     setTimeout(() => {
         document.querySelector('.meme-container').style.display = 'none'
-    }, 500);
+    }, 500);    
 }
-
 
 function unshowMemesPage(){
     const elMemePage = document.querySelector('.meme-page');
     elMemePage.hidden = true;
-    onCloseModal()
+    onCloseModalBtn()
+    onFilterBy('all')
+    hideCanvas()
+    gFontSizeHeight = false;
 }
 
 function renderMemesPage(){
@@ -162,10 +166,11 @@ function onShowModalSavedMeme(idx) {
     gCurrImg = idx;
 }
 
-function onCloseModal() {
+function onCloseModalBtn() {
     const elMemeModal = document.querySelector('.saved-meme');
     elMemeModal.style.display = 'none';    
 }
+
 
 function onDeleteSavedMeme() {
     deleteSavedMeme()
@@ -178,7 +183,7 @@ function onFilterBy(elValue){
 function renderKeywords(){
     var strHtmls = ['Politics', 'Animal', 'Cute', 'Funny', 'Movie', 'Happy'].map((key) => {
         return `
-    <li><a onclick="onClickFilterTag('${key.toLowerCase()}', this)" class="filter-text" href="#">${key}</a></li>
+    <li><a onclick="onClickFilterTag('${key.toLowerCase()}', this)" class="filter-text">${key}</a></li>
     `;
     });
     document.querySelector('.search-container ul').innerHTML = strHtmls.join('');

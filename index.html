@@ -31,17 +31,17 @@
                 <h2>Your Memes</h2>
                <main class="meme-page-gallery"></main>
             </div>
-           <div class="saved-meme">
-               <img class="show-meme" src="">
-               <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                <input name="img" id="imgData" type="hidden" />
-                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
-                <button onclick="onDeleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
-                <button class="submit-btn publish" type="submit">Publish</button>
-                <div class="share-container"></div>
-            </form>
-            <span onclick="onCloseModal()"><i class="fas fa-times-circle"></i></span>
-           </div>
+            <div class="saved-meme" >
+                <img class="show-meme" src="">
+                <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                    <input name="img" id="imgData" type="hidden" />
+                    <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                    <button onclick="onDeleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
+                    <button class="submit-btn publish" type="submit">Publish</button>
+                    <div class="share-container"></div>
+                </form>
+                <span onclick="onCloseModalBtn()"><i class="fas fa-times-circle"></i></span>
+            </div>
         </div>
 
     <nav class="nav-container flex space-center align-center">
