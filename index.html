@@ -8,18 +8,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body onload="onInit()">
 
      <div class="main-screen" onclick="toggleMenu()"></div>
 
+        <div class="meme-page" hidden>
+        <nav class="nav-container flex space-center align-center">
+            <div class="nav-content flex space-between align-center">
+                <div class="logo">Memegen</div>
+                <ul class="nav-list flex space-between align-center">
+                    <li><a href="#" onclick="unshowMemesPage()">Gallery</a></li>
+                    <li><a onclick="showMemesPage()" href="#">Memes</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </nav>
+            <div class="meme-page-main flex column">
+                <h2>Your Memes</h2>
+               <main class="meme-page-gallery"></main>
+            </div>
+           <div class="saved-meme">
+               <img class="show-meme" src="">
+               <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                <input name="img" id="imgData" type="hidden" />
+                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                <button onclick="deleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
+                <button class="submit-btn publish" type="submit">Publish</button>
+                <div class="share-container"></div>
+            </form>
+            <span onclick="onCloseModal()"><i class="fas fa-times-circle"></i></span>
+           </div>
+        </div>
+
     <nav class="nav-container flex space-center align-center">
         <div class="nav-content flex space-between align-center">
             <div class="logo">Memegen</div>
             <ul class="nav-list flex space-between align-center">
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Memes</a></li>
+                <li><a href="#" onclick="unshowMemesPage()">Gallery</a></li>
+                <li><a onclick="showMemesPage()" href="#">Memes</a></li>
                 <li><a href="#">About</a></li>
 
             </ul>
@@ -51,12 +81,13 @@
                         <li class="color"><label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label></li>
                         <li><input id="color-btn" onchange="onFontColor(this.value)" type="color" hidden></li>
                         <li class="change-selected"><button onclick="onChangeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
+                        <button class="submit-btn save" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="saveMeme()">Save</button>
                         <li class="delete"><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
                         <li class="form-inputs">
                             <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                                 <input name="img" id="imgData" type="hidden" />
                                 <button class="submit-btn publish" type="submit">Publish</button>
-                                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
                                 <div class="share-container"></div>
                             </form>
                         </li>

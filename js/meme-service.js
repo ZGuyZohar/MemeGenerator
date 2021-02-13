@@ -1,5 +1,5 @@
 // const gKeywords = {happy: 12, funny puk: 1}
-
+const KEY = 'memes';
 const gImgs = [
     {id: 0, url: 'styles/imgs/meme-imgs/0.jpg', keywords: ['happy']},
     {id: 1, url: 'styles/imgs/meme-imgs/1.jpg', keywords: ['happy']},
@@ -25,9 +25,11 @@ const gMeme = {
     selectedLineIdx: -1,
     lines: []
 }
+let gPrevMemeImg = null;
+let gSavedMemes;
 let gAlignList;
 let gFontColor = '';
-
+let gCurrImg;
 
 function getImgs(){
     return gImgs;
@@ -38,3 +40,19 @@ function changeLine(){
     if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
     gCurrMeme = gMeme.lines[gMeme.selectedLineIdx];
 }
+
+function getSavedMemes() {
+    gSavedMemes = loadFromStorage(KEY);
+    if (!gSavedMemes) return gSavedMemes = [];
+    else return gSavedMemes;
+}
+
+function saveMeme(){
+    let newImgSrc = gElCanvas.toDataURL();
+    if (gPrevMemeImg === newImgSrc) return;
+    gSavedMemes.push(newImgSrc);
+    saveToStorage(KEY, gSavedMemes);
+    gPrevMemeImg = newImgSrc;
+    renderMemesPage()
+}
+

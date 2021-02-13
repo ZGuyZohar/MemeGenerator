@@ -4,12 +4,15 @@ function onInit() {
     gElCanvas = document.getElementById('canvas');
     gCtx = gElCanvas.getContext('2d');
     renderGallery();
+    gSavedMemes = getSavedMemes()
+    renderMemesPage();
     addListeners();
     gAlignList = [gElCanvas.width / 4, gElCanvas.width / 2, gElCanvas.width / 1.5];
     // gCurrMeme = createMeme('');
 }
 
 function reset(idx){
+    gMeme.lines = []
     gMeme.selectedImgId = idx;
     gMeme.selectedLineIdx = 0;
     createMeme('')
@@ -42,7 +45,7 @@ function onDrawText(elInput) {
 }
 
 function onAddText(){
-    if(!gMeme.lines[gMeme.selectedLineIdx].text) return;
+    if(!gMeme.lines[gMeme.selectedLineIdx].text ) return;
     document.querySelector('input[name="meme-text"]').value = '';
     gMeme.selectedLineIdx = gMeme.lines.length;
     createMeme();
@@ -119,6 +122,58 @@ function onDeleteMeme(){
     renderCanvas()
 }
 
+function showMemesPage(){
+    const elMemePage = document.querySelector('.meme-page');
+    elMemePage.hidden = false;
+    gMeme.selectedImgId = null;
+        document.querySelector('.meme-container').classList.remove('meme-toggle');
+    setTimeout(() => {
+        document.querySelector('.meme-container').style.display = 'none'
+    }, 500);
+}
+
+
+function unshowMemesPage(){
+    const elMemePage = document.querySelector('.meme-page');
+    elMemePage.hidden = true;
+    onCloseModal()
+}
+
+function renderMemesPage(){
+    var strHtmls = gSavedMemes.map(function (meme, idx) {
+            return `
+    <div class="image-border" onclick="onShowModalSavedMeme(${idx})">
+       <img class="gallery-image" src="${meme}">
+    </div>
+    `;
+        });
+        document.querySelector('.meme-page-gallery').innerHTML = strHtmls.join('');
+}
+
+
+function onShowModalSavedMeme(idx) {
+    const elMemeModal = document.querySelector('.saved-meme');
+    elMemeModal.style.display = 'flex'
+    const elMemeImg = document.querySelector('.show-meme');
+    elMemeImg.src = gSavedMemes[idx]
+    gCurrImg = idx;
+}
+
+function onCloseModal() {
+    const elMemeModal = document.querySelector('.saved-meme');
+    elMemeModal.style.display = 'none';    
+}
+
+function deleteSavedMeme() {
+    const foundIdx = gSavedMemes.findIndex((meme, idx) => {
+        return idx === gCurrImg;
+    });
+    gSavedMemes.splice(foundIdx, 1);
+    saveToStorage(KEY, gSavedMemes);
+    onCloseModal()
+    renderMemesPage();
+    gCurrImg = null;
+}
 
 // function onMemeDirection(boolean) {
 //     if(gCurrMeme === undefined) return
