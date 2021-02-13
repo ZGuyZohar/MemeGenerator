@@ -1,5 +1,4 @@
 let gIsDelete = false;
-let gFontSizeHeight = false;
 
 function onInit() {
     gElCanvas = document.getElementById('canvas');
@@ -21,7 +20,6 @@ function reset(idx){
     gCurrMeme = null;
     const elInput = document.querySelector('input[name="meme-text"]');
     elInput.value = '';
-    gFontSizeHeight = false;
 }
 
 
@@ -142,8 +140,7 @@ function unshowMemesPage(){
     elMemePage.hidden = true;
     onCloseModalBtn()
     onFilterBy('all')
-    hideCanvas()
-    gFontSizeHeight = false;
+    hideCanvas();
 }
 
 function renderMemesPage(){
@@ -193,16 +190,11 @@ function onClickFilterTag(tagVal, elTag) {
     let fontSize = parseInt(elTag.style.fontSize.slice(0,2))
     if(fontSize >= 46 ) {
         document.querySelector('.search-container ul').style.gridTemplateColumns = 'repeat(auto-fill, 10rem)';
-        document.querySelector('.search').style.height = '8.625rem'
         return;
     }
     clickFilterTag(tagVal);
     elTag.style.fontSize = 12 + gKeywords[tagVal] * 1.5 + 'px'
     filterBy(tagVal);
-    if(fontSize >= 35.5 && !gFontSizeHeight) {
-        document.querySelector('.search').style.height = 5.625 +'rem';
-        gFontSizeHeight = true;
-    }
 }
 
 // function onMemeDirection(boolean) {

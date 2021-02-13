@@ -357,7 +357,7 @@ ul.controls {
 .search {
     background-color: #fff;
     width: 100%;
-    height: 3.625rem;
+    height: 100%;
 }
 
 .search-container {
@@ -615,7 +615,6 @@ ul.controls {
         margin-left: 10px;
     }
 
-
 }
 
 @media (max-width: 690px) {
@@ -700,9 +699,6 @@ ul.controls {
             align-items: center;
         }
 
-        /* canvas {
-        width: 339px;
-    } */
 
         .meme-container {
             justify-content: space-evenly;
@@ -751,4 +747,8 @@ ul.controls {
             height: 815px;
             padding-top: 6px;
         }
+        .search ul{
+            display: none;
+        }
+        
     }
