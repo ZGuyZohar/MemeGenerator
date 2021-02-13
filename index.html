@@ -36,7 +36,7 @@
                <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                 <input name="img" id="imgData" type="hidden" />
                 <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
-                <button onclick="deleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
+                <button onclick="onDeleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
                 <button class="submit-btn publish" type="submit">Publish</button>
                 <div class="share-container"></div>
             </form>
@@ -94,20 +94,22 @@
                 </ul>
             </div>
         </main>
-    
-    <section class="search">
+    <section class="search flex">
         <div class="search-container">
-            <input list="categories" placeholder="Search Category">
-            <datalist id="categories">
-                <option value="Internet Explorer">
-                <option value="Firefox">
-                <option value="Google Chrome">
-                <option value="Opera">
-                <option value="Safari">
-            </datalist>
+            <input list="categories" onchange="onFilterBy(this.value)" placeholder="Enter search keyword">
+            <ul></ul>
         </div>
     </section>
-
+    <datalist id="categories">
+        <option value="All">
+        <option value="Politics">
+        <option value="Animal">
+        <option value="Cute">
+        <option value="Funny">
+        <option value="Movie">
+        <option value="Happy">
+    </datalist>
+    
     <div class="container">
         <h1 class="gallery-title">Choose from the gallery</h1>
         <main class="gallery">

@@ -1,24 +1,24 @@
-// const gKeywords = {happy: 12, funny puk: 1}
+const gKeywords = {happy: 3, funny: 6, politics: 3, animal: 3, cute: 4, movie: 6}
 const KEY = 'memes';
-const gImgs = [
-    {id: 0, url: 'styles/imgs/meme-imgs/0.jpg', keywords: ['happy']},
-    {id: 1, url: 'styles/imgs/meme-imgs/1.jpg', keywords: ['happy']},
-    {id: 2, url: 'styles/imgs/meme-imgs/2.jpg', keywords: ['happy']},
-    {id: 3, url: 'styles/imgs/meme-imgs/3.jpg', keywords: ['happy']},
-    {id: 4, url: 'styles/imgs/meme-imgs/4.jpg', keywords: ['happy']},
-    {id: 5, url: 'styles/imgs/meme-imgs/5.jpg', keywords: ['happy']},
-    {id: 6, url: 'styles/imgs/meme-imgs/6.jpg', keywords: ['happy']},
-    {id: 7, url: 'styles/imgs/meme-imgs/7.jpg', keywords: ['happy']},
-    {id: 8, url: 'styles/imgs/meme-imgs/8.jpg', keywords: ['happy']},
-    {id: 9, url: 'styles/imgs/meme-imgs/9.jpg', keywords: ['happy']},
-    {id: 10, url: 'styles/imgs/meme-imgs/10.jpg', keywords: ['happy']},
+const gImgs = [                                                                     
+    {id: 0, url: 'styles/imgs/meme-imgs/0.jpg', keywords: ['politics']},
+    {id: 1, url: 'styles/imgs/meme-imgs/1.jpg', keywords: ['animal', 'cute']},
+    {id: 2, url: 'styles/imgs/meme-imgs/2.jpg', keywords: ['animal', 'cute']},
+    {id: 3, url: 'styles/imgs/meme-imgs/3.jpg', keywords: ['animal']},
+    {id: 4, url: 'styles/imgs/meme-imgs/4.jpg', keywords: ['cute']},
+    {id: 5, url: 'styles/imgs/meme-imgs/5.jpg', keywords: ['funny', 'happy']},
+    {id: 6, url: 'styles/imgs/meme-imgs/6.jpg', keywords: ['cute']},
+    {id: 7, url: 'styles/imgs/meme-imgs/7.jpg', keywords: ['funny', 'movie']},
+    {id: 8, url: 'styles/imgs/meme-imgs/8.jpg', keywords: ['funny']},
+    {id: 9, url: 'styles/imgs/meme-imgs/9.jpg', keywords: ['politics']},
+    {id: 10, url: 'styles/imgs/meme-imgs/10.jpg', keywords: ['funny']},
     {id: 11, url: 'styles/imgs/meme-imgs/11.jpg', keywords: ['happy']},
-    {id: 12, url: 'styles/imgs/meme-imgs/12.jpg', keywords: ['happy']},
-    {id: 13, url: 'styles/imgs/meme-imgs/13.jpg', keywords: ['happy']},
-    {id: 14, url: 'styles/imgs/meme-imgs/14.jpg', keywords: ['happy']},
-    {id: 15, url: 'styles/imgs/meme-imgs/15.jpg', keywords: ['happy']},
-    {id: 16, url: 'styles/imgs/meme-imgs/16.jpg', keywords: ['happy']},
-    {id: 17, url: 'styles/imgs/meme-imgs/17.jpg', keywords: ['happy']},
+    {id: 12, url: 'styles/imgs/meme-imgs/12.jpg', keywords: ['movie']},
+    {id: 13, url: 'styles/imgs/meme-imgs/13.jpg', keywords: ['movie', 'happy']},
+    {id: 14, url: 'styles/imgs/meme-imgs/14.jpg', keywords: ['movie']},
+    {id: 15, url: 'styles/imgs/meme-imgs/15.jpg', keywords: ['movie', 'funny']},
+    {id: 16, url: 'styles/imgs/meme-imgs/16.jpg', keywords: ['politics']},
+    {id: 17, url: 'styles/imgs/meme-imgs/17.jpg', keywords: ['movie', 'funny']},
 ]
 const gMeme = {
     selectedImgId: null,
@@ -30,6 +30,7 @@ let gSavedMemes;
 let gAlignList;
 let gFontColor = '';
 let gCurrImg;
+
 
 function getImgs(){
     return gImgs;
@@ -43,7 +44,7 @@ function changeLine(){
 
 function getSavedMemes() {
     gSavedMemes = loadFromStorage(KEY);
-    if (!gSavedMemes) return gSavedMemes = [];
+    if (!gSavedMemes || !gSavedMemes.length) return (gSavedMemes = [permStorageData[0], permStorageData[1]]);
     else return gSavedMemes;
 }
 
@@ -56,3 +57,34 @@ function saveMeme(){
     renderMemesPage()
 }
 
+function deleteSavedMeme(){
+    const foundIdx = gSavedMemes.findIndex((meme, idx) => {
+        return idx === gCurrImg;
+    });
+    gSavedMemes.splice(foundIdx, 1);
+    saveToStorage(KEY, gSavedMemes);
+    onCloseModal();
+    renderMemesPage();
+    gCurrImg = null;
+}
+
+function filterBy(elValue){
+    const filterBy = elValue.toLowerCase()
+    if(filterBy === 'all' || !filterBy) return renderGallery()
+    const filterImgs = [];
+    gImgs.forEach((img, idx) => {
+        img.keywords.forEach((key, i) => {
+            if (key === filterBy){
+                filterImgs.push(gImgs[idx])
+            } 
+        });
+    });
+
+    renderGallery(filterImgs);
+}
+
+function clickFilterTag(tagVal){
+    for(let tag in gKeywords){
+        if(tagVal === tag) gKeywords[tag]++
+    }
+}

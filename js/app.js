@@ -1,9 +1,11 @@
 let gIsDelete = false;
+let gFontSizeHeight = false;
 
 function onInit() {
     gElCanvas = document.getElementById('canvas');
     gCtx = gElCanvas.getContext('2d');
     renderGallery();
+    renderKeywords();
     gSavedMemes = getSavedMemes()
     renderMemesPage();
     addListeners();
@@ -22,12 +24,13 @@ function reset(idx){
 }
 
 
-function renderGallery() {
+function renderGallery(isFilter) {
     var imgs = getImgs();
+    if(isFilter) imgs = isFilter;
     var strHtmls = imgs.map(function (img, idx) {
         return `
     <div class="image-border" onclick="onShowCanvas(${idx})">
-       <img class="gallery-image" src="styles/imgs/meme-imgs/${idx}.jpg">
+       <img class="gallery-image" src="${img.url}">
     </div>
     `;
     });
@@ -164,15 +167,37 @@ function onCloseModal() {
     elMemeModal.style.display = 'none';    
 }
 
-function deleteSavedMeme() {
-    const foundIdx = gSavedMemes.findIndex((meme, idx) => {
-        return idx === gCurrImg;
+function onDeleteSavedMeme() {
+    deleteSavedMeme()
+}
+
+function onFilterBy(elValue){
+    filterBy(elValue)
+}
+
+function renderKeywords(){
+    var strHtmls = ['Politics', 'Animal', 'Cute', 'Funny', 'Movie', 'Happy'].map((key) => {
+        return `
+    <li><a onclick="onClickFilterTag('${key.toLowerCase()}', this)" class="filter-text" href="#">${key}</a></li>
+    `;
     });
-    gSavedMemes.splice(foundIdx, 1);
-    saveToStorage(KEY, gSavedMemes);
-    onCloseModal()
-    renderMemesPage();
-    gCurrImg = null;
+    document.querySelector('.search-container ul').innerHTML = strHtmls.join('');
+}
+
+function onClickFilterTag(tagVal, elTag) {
+    let fontSize = parseInt(elTag.style.fontSize.slice(0,2))
+    if(fontSize >= 46 ) {
+        document.querySelector('.search-container ul').style.gridTemplateColumns = 'repeat(auto-fill, 10rem)';
+        document.querySelector('.search').style.height = '8.625rem'
+        return;
+    }
+    clickFilterTag(tagVal);
+    elTag.style.fontSize = 12 + gKeywords[tagVal] * 1.5 + 'px'
+    filterBy(tagVal);
+    if(fontSize >= 35.5 && !gFontSizeHeight) {
+        document.querySelector('.search').style.height = 5.625 +'rem';
+        gFontSizeHeight = true;
+    }
 }
 
 // function onMemeDirection(boolean) {

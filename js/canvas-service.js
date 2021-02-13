@@ -246,27 +246,20 @@ function downloadImg(elLink) {
     elLink.href = imgContent;
 }
 
-// The next 2 functions handle IMAGE UPLOADING to img tag from file system:
-
-// UPLOAD SERVICE
-
-
-// on submit call to this function
 function uploadImg(elForm, ev) {
     ev.preventDefault();
     gMeme.selectedLineIdx = -1;
     document.getElementById('imgData').value = gElCanvas.toDataURL("image/jpeg");
 
-    // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
         uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.share-container').innerHTML = `
         <button class="submit-btn share" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-           Share   
+            Share   
         </button>`
     }
 
-    doUploadImg(elForm, onSuccess);
+doUploadImg(elForm, onSuccess);
 }
 
 function doUploadImg(elForm, onSuccess) {
