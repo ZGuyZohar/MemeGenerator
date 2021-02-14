@@ -45,6 +45,7 @@ function changeLine(){
 
 function getSavedMemes() {
     gSavedMemes = loadFromStorage(KEY);
+    if (!gSavedMemes || !gSavedMemes.length) gSavedMemes = [];
     return gSavedMemes;
 }
 
