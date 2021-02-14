@@ -387,6 +387,7 @@ ul.controls {
 }
 
 .search-container input {
+    align-self: flex-end;
     width: 18.75em;
     height: 3em;
     padding-left: 10px;
@@ -412,7 +413,7 @@ ul.controls {
     list-style: none;
     grid-column: 3;
     margin-right: 1.25rem;
-    line-height: 30px;
+    line-height: 21px;
 }
 
 .search-container ul li {
@@ -595,6 +596,13 @@ ul.controls {
 }
 
 /* ============= */
+@media (max-width: 995px) {
+    .search-container input {
+        align-self: flex-start;
+    }
+}
+
+
 
 @media (max-width: 975px) {
     .meme-container {
@@ -648,7 +656,6 @@ ul.controls {
         grid-column: 5/8;
         margin-left: 10px;
     }
-
 }
 
 @media (max-width: 690px) {
@@ -663,6 +670,10 @@ ul.controls {
     @media (max-width: 592px) {
         .search-container {
             flex-direction: column;
+        }
+
+        .search-container input {
+            align-self: flex-start;
         }
     }
 
