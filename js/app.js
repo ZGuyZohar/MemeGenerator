@@ -1,5 +1,5 @@
 let gIsDelete = false;
-
+let gDeleteBtn = false;
 function onInit() {
     gElCanvas = document.getElementById('canvas');
     gCtx = gElCanvas.getContext('2d');
@@ -14,7 +14,7 @@ function onInit() {
 
 function reset(idx){
     gMeme.lines = []
-    gMeme.selectedImgId = idx;
+    gMeme.isFromStorage = false;
     gMeme.selectedLineIdx = 0;
     createMeme('')
     gCurrMeme = null;
@@ -47,15 +47,15 @@ function onDrawText(elInput) {
 }
 
 function onAddText(){
-    if(!gMeme.lines[gMeme.selectedLineIdx].text ) return;
-    document.querySelector('input[name="meme-text"]').value = '';
     gMeme.selectedLineIdx = gMeme.lines.length;
     createMeme();
+    if(!gMeme.lines[gMeme.selectedLineIdx].text ) return;
+    document.querySelector('input[name="meme-text"]').value = '';
     renderCanvas();
 }
 
-function onShowCanvas(idx){
-    if (gMeme.selectedImgId === null) {
+function onShowCanvas(idx, isStorage){
+    if (gMeme.selectedImgId === null || isStorage) {
         const elMemeContent = document.querySelector('.meme-container');
         elMemeContent.style.display = 'flex';
          if (window.matchMedia('(max-width: 555px)').matches) {
@@ -66,7 +66,9 @@ function onShowCanvas(idx){
             elMemeContent.classList.add('meme-toggle');
         }, 1);
     }
-    setImg(idx);
+    renderDeleteBtn();
+    setImg(idx, isStorage);
+    document.querySelector('.meme-text input').focus();
 }
 
 function onLrcAlign(idx){
@@ -119,35 +121,44 @@ function onDeleteMeme(){
         renderCanvas()
     }, 10);
     renderCanvas()
+    
+}
+
+function hideCanvas(){
+    reset();   
+    document.querySelector('.meme-container').classList.remove('meme-toggle');
+    setTimeout(() => {
+        document.querySelector('.meme-container').style.display = 'none'
+    }, 500);
+    gMeme.selectedImgId = null; 
 }
 
 function showMemesPage(){
     const elMemePage = document.querySelector('.meme-page');
-    elMemePage.hidden = false;
+    elMemePage.style.display = 'block';
+    const elContainer = document.querySelector('.container');
+    elContainer.style.display = 'none';
     gMeme.selectedImgId = null;
-    hideCanvas()
-}
-
-function hideCanvas(){
-        document.querySelector('.meme-container').classList.remove('meme-toggle');
-    setTimeout(() => {
-        document.querySelector('.meme-container').style.display = 'none'
-    }, 500);    
+    toggleMenu();
+    hideCanvas();
 }
 
 function unshowMemesPage(){
     const elMemePage = document.querySelector('.meme-page');
-    elMemePage.hidden = true;
-    onCloseModalBtn()
-    onFilterBy('all')
+    elMemePage.style.display = 'none';
+    const elContainer = document.querySelector('.container');
+    elContainer.style.display = 'block';
+    gMeme.selectedImgId = null; 
+    onFilterBy('all');
+    toggleMenu();
     hideCanvas();
 }
 
 function renderMemesPage(){
     var strHtmls = gSavedMemes.map(function (meme, idx) {
             return `
-    <div class="image-border" onclick="onShowModalSavedMeme(${idx})">
-       <img class="gallery-image" src="${meme}">
+    <div class="image-border" onclick="onShowSavedMeme(${idx}, ${meme.imgId})">
+       <img class="gallery-image" src="${meme.displayImg}">
     </div>
     `;
         });
@@ -155,22 +166,29 @@ function renderMemesPage(){
 }
 
 
-function onShowModalSavedMeme(idx) {
-    const elMemeModal = document.querySelector('.saved-meme');
-    elMemeModal.style.display = 'flex'
-    const elMemeImg = document.querySelector('.show-meme');
-    elMemeImg.src = gSavedMemes[idx]
+function renderDeleteBtn(){
+    const elDeleteMeme = document.querySelector('.delete-meme')
+    const elControls = document.querySelector('.controls');
+    let elBtn = `<button class="submit-btn delete-meme" onclick="onDeleteSavedMeme()">Delete</button>`;
+    if(gDeleteBtn) elDeleteMeme.style.display = 'none';
+    if(gMeme.isFromStorage && gDeleteBtn) elDeleteMeme.style.display = 'block';
+    if(gMeme.isFromStorage && !gDeleteBtn) {
+        elControls.innerHTML += elBtn;
+        gDeleteBtn = true;
+    }
+}
+
+function onShowSavedMeme(idx, imgId) {
+    gMeme.selectedImgId = gSavedMemes[idx].imgId;
+    gMeme.lines = gSavedMemes[idx].lines;
+    gMeme.isFromStorage = true;
     gCurrImg = idx;
+    onShowCanvas(imgId, true)
 }
-
-function onCloseModalBtn() {
-    const elMemeModal = document.querySelector('.saved-meme');
-    elMemeModal.style.display = 'none';    
-}
-
 
 function onDeleteSavedMeme() {
-    deleteSavedMeme()
+    deleteSavedMeme();
+    hideCanvas();
 }
 
 function onFilterBy(elValue){
@@ -180,20 +198,21 @@ function onFilterBy(elValue){
 function renderKeywords(){
     var strHtmls = ['Politics', 'Animal', 'Cute', 'Funny', 'Movie', 'Happy'].map((key) => {
         return `
-    <li><a onclick="onClickFilterTag('${key.toLowerCase()}', this)" class="filter-text">${key}</a></li>
+    <li><a onclick="onClickFilterTag('${key}', this)" class="filter-text">${key}</a></li>
     `;
     });
     document.querySelector('.search-container ul').innerHTML = strHtmls.join('');
 }
 
 function onClickFilterTag(tagVal, elTag) {
+    const filterVal = tagVal.toLowerCase();
     let fontSize = parseInt(elTag.style.fontSize.slice(0,2))
-    if(fontSize >= 46 ) {
+    if(fontSize >= 38 ) {
         document.querySelector('.search-container ul').style.gridTemplateColumns = 'repeat(auto-fill, 10rem)';
-        return;
+        return filterBy(tagVal);
     }
-    clickFilterTag(tagVal);
-    elTag.style.fontSize = 12 + gKeywords[tagVal] * 1.5 + 'px'
+    clickFilterTag(filterVal);
+    elTag.style.fontSize = 12 + gKeywords[filterVal] * 1.5 + 'px'
     filterBy(tagVal);
 }
 

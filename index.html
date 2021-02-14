@@ -14,86 +14,57 @@
 <body onload="onInit()">
 
      <div class="main-screen" onclick="toggleMenu()"></div>
-
-        <div class="meme-page" hidden>
-        <nav class="nav-container flex space-center align-center">
-            <div class="nav-content flex space-between align-center">
-                <div class="logo">Memegen</div>
-                <ul class="nav-list flex space-between align-center">
-                    <li><a href="#" onclick="unshowMemesPage()">Gallery</a></li>
-                    <li><a onclick="showMemesPage()" href="#">Memes</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-                <button class="menu-btn" onclick="toggleMenu()">☰</button>
-            </div>
-        </nav>
-            <div class="meme-page-main flex column">
-                <h2>Your Memes</h2>
-               <main class="meme-page-gallery"></main>
-            </div>
-            <div class="saved-meme" >
-                <img class="show-meme" src="">
-                <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                    <input name="img" id="imgData" type="hidden" />
-                    <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
-                    <button onclick="onDeleteSavedMeme()" class="submit-btn delete"><a href="#" >Delete</a></button>                
-                    <button class="submit-btn publish" type="submit">Publish</button>
-                    <div class="share-container"></div>
-                </form>
-                <span onclick="onCloseModalBtn()"><i class="fas fa-times-circle"></i></span>
-            </div>
-        </div>
-
+     
     <nav class="nav-container flex space-center align-center">
         <div class="nav-content flex space-between align-center">
-            <div class="logo">Memegen</div>
+            <div class="logo" onclick="hideCanvas()" >Memegen</div>
             <ul class="nav-list flex space-between align-center">
                 <li><a href="#" onclick="unshowMemesPage()">Gallery</a></li>
                 <li><a onclick="showMemesPage()" href="#">Memes</a></li>
                 <li><a href="#">About</a></li>
-
+                
             </ul>
             <button class="menu-btn" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
-
-        <main id="meme-container" class="meme-container">
-            <div class="canvas-container">
-                <canvas id="canvas" height="406" width="486" style="border: 1px solid black;"></canvas>
-            </div>
-            <div class="control-box">
-                <ul class="controls">
-                        <li class="meme-text"><input type="text" oninput="onDrawText(this.value)" name="meme-text"  placeholder="Add Text"></li>
-                        <li class="add-text"><button onclick="onAddText()"><img src="styles/imgs/icons/add.png"></button></li>
-                        <li class="row-3 font-up"><button onclick="onFontSizeChange(true)"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
-                        <li class="row-3 font-down"><button onclick="onFontSizeChange(false)"><img src="styles/imgs/icons/decrease font - icon.png"></button></li>
-                        <li class="row-3 align-left"><button onclick="onLrcAlign(0)"><img src="styles/imgs/icons/align-to-left.png"></button></li>
-                        <li class="row-3 align-center"><button onclick="onLrcAlign(1)"><img src="styles/imgs/icons/center-text-alignment.png"></button></li>
-                        <li class="row-3 align-right"><button onclick="onLrcAlign(2)"><img src="styles/imgs/icons/align-to-right.png"></button></li>
-                        <li class="font-style">
-                            <select onchange="onFontStyle(this)" class="font-list">
-                                <option value="Impact">Impact</option>
-                                <option value="Arial">Arial</option>
-                                <option value="Fredoka">Fredoka</option>
-                                <option value="Montserrat">Montserrat</option>
-                            </select>
-                        </li>
-                        <li class="color"><label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label></li>
-                        <li><input id="color-btn" onchange="onFontColor(this.value)" type="color" hidden></li>
-                        <li class="change-selected"><button onclick="onChangeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
-                        <button class="submit-btn save" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="saveMeme()">Save</button>
-                        <li class="delete"><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
-                        <li class="form-inputs">
-                            <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                                <input name="img" id="imgData" type="hidden" />
-                                <button class="submit-btn publish" type="submit">Publish</button>
-                                <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
-                                <div class="share-container"></div>
-                            </form>
-                        </li>
-                </ul>
-            </div>
-        </main>
+        
+    <main id="meme-container" class="meme-container">
+        <div class="canvas-container">
+            <canvas id="canvas" height="406" width="486" style="border: 1px solid black;"></canvas>
+        </div>
+        <div class="control-box">
+            <ul class="controls">
+                <li class="meme-text"><input type="text" oninput="onDrawText(this.value)" name="meme-text"  placeholder="Add Text"></li>
+                <li class="add-text"><button onclick="onAddText()"><img src="styles/imgs/icons/add.png"></button></li>
+                <li class="row-3 font-up"><button onclick="onFontSizeChange(true)"><img src="styles/imgs/icons/increase font - icon.png"></button></li>
+                <li class="row-3 font-down"><button onclick="onFontSizeChange(false)"><img src="styles/imgs/icons/decrease font - icon.png"></button></li>
+                <li class="row-3 align-left"><button onclick="onLrcAlign(0)"><img src="styles/imgs/icons/align-to-left.png"></button></li>
+                <li class="row-3 align-center"><button onclick="onLrcAlign(1)"><img src="styles/imgs/icons/center-text-alignment.png"></button></li>
+                <li class="row-3 align-right"><button onclick="onLrcAlign(2)"><img src="styles/imgs/icons/align-to-right.png"></button></li>
+                <li class="font-style">
+                    <select onchange="onFontStyle(this)" class="font-list">
+                        <option value="Impact">Impact</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Fredoka">Fredoka</option>
+                        <option value="Montserrat">Montserrat</option>
+                    </select>
+                </li>
+                <li class="color"><label class="color-btn" for="color-btn"><img src="styles/imgs/icons/paint-board-and-brush.png"></label></li>
+                <li><input id="color-btn" oninput="onFontColor(this.value)" type="color"></li>
+                <li class="change-selected"><button onclick="onChangeLine()"><img src="styles/imgs/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button></li>
+                <button class="submit-btn save" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="saveMeme()">Save</button>
+                <li class="delete"><button onclick="onDeleteMeme(true)"><img src="styles/imgs/icons/trash.png"></button></li>
+                <li class="form-inputs">
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="submit-btn publish" type="submit">Publish</button>
+                        <button class="submit-btn download"><a href="#" onmousedown="drawSelectedRect(true)" ontouchstart="drawSelectedRect(true)" onmouseup="downloadImg(this)" download="my-img.jpg">Download</a></button>
+                        <div class="share-container"></div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </main>
     <section class="search flex">
         <div class="search-container">
             <input list="categories" onchange="onFilterBy(this.value)" placeholder="Enter search keyword">
@@ -110,6 +81,11 @@
         <option value="Happy">
     </datalist>
     
+    <div class="meme-page flex column">
+        <h2>Your Memes</h2>
+        <main class="meme-page-gallery"></main>
+    </div>
+    
     <div class="container">
         <h1 class="gallery-title">Choose from the gallery</h1>
         <main class="gallery">
@@ -119,7 +95,7 @@
         <div class="centralize-footer">
             <div class="footer-logo">Memegen</div>
             <small class="info"
-                >&#169; 2021 memegen.com - All Rights Reserved</small
+            >&#169; 2021 memegen.com - All Rights Reserved</small
             >
             <ul class="flex align-center social-links">
                 <li><a class="icon facebook" href="#"></a></li>
@@ -129,7 +105,7 @@
             </ul>
         </div>
     </footer>
-
+    
     <script src="js/utils.js"></script>
     <script src="js/storage-service.js"></script>
     <script src="js/meme-service.js"></script>

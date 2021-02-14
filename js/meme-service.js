@@ -20,13 +20,14 @@ const gImgs = [
     {id: 16, url: 'styles/imgs/meme-imgs/16.jpg', keywords: ['politics']},
     {id: 17, url: 'styles/imgs/meme-imgs/17.jpg', keywords: ['movie', 'funny']},
 ]
-const gMeme = {
+let gMeme = {
     selectedImgId: null,
     selectedLineIdx: -1,
-    lines: []
+    lines: [],
+    isFromStorage: false
 }
 let gPrevMemeImg = null;
-let gSavedMemes;
+let gSavedMemes = [];
 let gAlignList;
 let gFontColor = '';
 let gCurrImg;
@@ -44,16 +45,21 @@ function changeLine(){
 
 function getSavedMemes() {
     gSavedMemes = loadFromStorage(KEY);
-    if (!gSavedMemes || !gSavedMemes.length) return (gSavedMemes = [permStorageData[0], permStorageData[1]]);
-    else return gSavedMemes;
+    return gSavedMemes;
 }
 
 function saveMeme(){
-    let newImgSrc = gElCanvas.toDataURL();
-    if (gPrevMemeImg === newImgSrc) return;
-    gSavedMemes.push(newImgSrc);
+    let displayImg = gElCanvas.toDataURL();
+    let newImgId = gImgs[gMeme.selectedImgId].id;
+    const newMeme = {
+        displayImg,
+        imgId: newImgId,
+        lines: gMeme.lines
+    }
+    if (gPrevMemeImg === displayImg) return;
+    gSavedMemes.push(newMeme);
     saveToStorage(KEY, gSavedMemes);
-    gPrevMemeImg = newImgSrc;
+    gPrevMemeImg = displayImg;
     renderMemesPage()
 }
 
@@ -63,7 +69,6 @@ function deleteSavedMeme(){
     });
     gSavedMemes.splice(foundIdx, 1);
     saveToStorage(KEY, gSavedMemes);
-    onCloseModal();
     renderMemesPage();
     gCurrImg = null;
 }
@@ -79,7 +84,7 @@ function filterBy(elValue){
             } 
         });
     });
-
+    document.querySelector('.search-container input').value = elValue;
     renderGallery(filterImgs);
 }
 
